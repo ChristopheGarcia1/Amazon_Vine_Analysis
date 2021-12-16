@@ -55,6 +55,7 @@ SELECT *
 SELECT * FROM cte_total_votes
 WHERE CAST(helpful_votes AS FLOAT)/CAST(total_votes AS FLOAT) >=0.5 AND (vine = 'N')
 
+-- Looking at total reviews and how many of them are five stars based on if theyre in the vine program
 
 WITH cte_total_reviews  AS ( 
 	SELECT CAST(COUNT(review_id)AS FLOAT) AS total_reviews,
@@ -71,7 +72,7 @@ WITH cte_total_reviews  AS (
 	group by vine)
 	
 select tot.total_reviews,
-fiv.five_stars/tot.total_reviews AS percentage_fivestars,
+fiv.five_stars/tot.total_reviews*100 AS percentage_fivestars,
 tot.vine
 From cte_total_reviews AS tot
 join cte_five_stars AS fiv
